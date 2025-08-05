@@ -4,19 +4,19 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/components/ui/use-toast';
 import type { User, Session } from '@supabase/supabase-js';
-import ChatInterface from '@/components/ChatInterface';
-import ChatHeader from '@/components/ChatHeader';
-import ChatHistory from '@/components/ChatHistory';
+import TextChat from '@/components/TextChat';
+import VoiceChat from '@/components/VoiceChat';
+import ChatModeSelector from '@/components/ChatModeSelector';
 
 const Chat = () => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [mode, setMode] = useState<'text' | 'voice'>('text');
   const navigate = useNavigate();
   const { toast } = useToast();
 
   useEffect(() => {
-    // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         setSession(session);
@@ -29,7 +29,6 @@ const Chat = () => {
       }
     );
 
-    // Check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
@@ -76,20 +75,19 @@ const Chat = () => {
   }
 
   return (
-    <div className="h-screen bg-gradient-to-br from-purple-50 via-white to-teal-50 flex flex-col">
-      <ChatHeader user={user} onSignOut={handleSignOut} />
+    <div className="h-screen bg-gradient-to-br from-purple-50 via-white to-teal-50">
+      <ChatModeSelector 
+        mode={mode} 
+        setMode={setMode} 
+        user={user} 
+        onSignOut={handleSignOut} 
+      />
       
-      <div className="flex-1 flex overflow-hidden">
-        {/* Left Sidebar - Chat History */}
-        <div className="w-80 border-r border-gray-200 bg-white/80 backdrop-blur-sm">
-          <ChatHistory />
-        </div>
-
-        {/* Main Chat Area */}
-        <div className="flex-1 flex flex-col">
-          <ChatInterface user={user} />
-        </div>
-      </div>
+      {mode === 'text' ? (
+        <TextChat user={user} />
+      ) : (
+        <VoiceChat user={user} />
+      )}
     </div>
   );
 };
