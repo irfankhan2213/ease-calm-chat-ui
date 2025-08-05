@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Send } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
 import type { User } from '@supabase/supabase-js';
 
 interface Message {
@@ -18,6 +19,7 @@ interface TextChatProps {
 }
 
 const TextChat: React.FC<TextChatProps> = ({ user }) => {
+  const isMobile = useIsMobile();
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
@@ -29,12 +31,20 @@ const TextChat: React.FC<TextChatProps> = ({ user }) => {
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (scrollAreaRef.current) {
       scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
     }
   }, [messages]);
+
+  // Auto-focus input on desktop
+  useEffect(() => {
+    if (!isMobile && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isMobile]);
 
   const handleSendMessage = async () => {
     if (!inputText.trim()) return;
@@ -80,24 +90,35 @@ const TextChat: React.FC<TextChatProps> = ({ user }) => {
   };
 
   return (
-    <div className="flex-1 flex flex-col max-w-4xl mx-auto">
-      <ScrollArea className="flex-1 p-6" ref={scrollAreaRef}>
-        <div className="space-y-6">
+    <div className="flex-1 flex flex-col h-full">
+      {/* Session Counter */}
+      <div className="bg-gradient-to-r from-purple-50 to-teal-50 px-4 sm:px-6 py-2 border-b border-gray-100">
+        <div className="max-w-4xl mx-auto">
+          <p className="text-xs sm:text-sm text-gray-600 text-center">Session 12 • Active</p>
+        </div>
+      </div>
+
+      {/* Messages */}
+      <ScrollArea className="flex-1 p-3 sm:p-6" ref={scrollAreaRef}>
+        <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6">
           {messages.map((message) => (
             <div key={message.id} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-              <div className={`max-w-xs md:max-w-md px-4 py-3 rounded-2xl ${
+              <div className={`max-w-[85%] sm:max-w-xs md:max-w-md px-3 sm:px-4 py-2.5 sm:py-3 rounded-2xl ${
                 message.role === 'user' 
-                  ? 'bg-purple-600 text-white ml-12' 
-                  : 'bg-white border border-gray-200 text-gray-800 mr-12'
+                  ? 'bg-purple-600 text-white' 
+                  : 'bg-white border border-gray-200 text-gray-800 shadow-sm'
               }`}>
-                <p className="text-sm leading-relaxed">{message.content}</p>
+                <p className="text-sm sm:text-base leading-relaxed">{message.content}</p>
+                <p className="text-xs opacity-70 mt-1 sm:mt-2">
+                  {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </p>
               </div>
             </div>
           ))}
 
           {isTyping && (
-            <div className="flex justify-start mr-12">
-              <div className="bg-white border border-gray-200 px-4 py-3 rounded-2xl">
+            <div className="flex justify-start">
+              <div className="bg-white border border-gray-200 px-3 sm:px-4 py-2.5 sm:py-3 rounded-2xl shadow-sm">
                 <div className="flex space-x-1">
                   <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
                   <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
@@ -109,23 +130,30 @@ const TextChat: React.FC<TextChatProps> = ({ user }) => {
         </div>
       </ScrollArea>
 
-      <div className="border-t border-gray-200 bg-white/90 backdrop-blur-sm p-6">
-        <div className="flex items-center gap-3">
-          <Input
-            value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
-            onKeyPress={handleKeyPress}
-            placeholder="Share what's on your mind..."
-            className="flex-1 bg-gray-50 border-gray-200 focus:border-purple-300 focus:ring-purple-300 rounded-xl"
-            disabled={isTyping}
-          />
-          <Button
-            onClick={handleSendMessage}
-            disabled={!inputText.trim() || isTyping}
-            className="bg-purple-600 hover:bg-purple-700 text-white px-6 rounded-xl"
-          >
-            <Send className="w-4 h-4" />
-          </Button>
+      {/* Input Area */}
+      <div className="border-t border-gray-200 bg-white/90 backdrop-blur-sm p-3 sm:p-6 safe-area-inset-bottom">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex items-end gap-2 sm:gap-3">
+            <div className="flex-1">
+              <Input
+                ref={inputRef}
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder={isMobile ? "Type your message..." : "Share what's on your mind..."}
+                className="bg-gray-50 border-gray-200 focus:border-purple-300 focus:ring-purple-300 py-2.5 sm:py-3 text-sm sm:text-base rounded-xl resize-none min-h-[40px] sm:min-h-[44px]"
+                disabled={isTyping}
+                maxLength={1000}
+              />
+            </div>
+            <Button
+              onClick={handleSendMessage}
+              disabled={!inputText.trim() || isTyping}
+              className="bg-purple-600 hover:bg-purple-700 text-white px-3 sm:px-6 py-2.5 sm:py-3 rounded-xl flex-shrink-0 min-h-[40px] sm:min-h-[44px]"
+            >
+              <Send className="w-4 h-4" />
+            </Button>
+          </div>
         </div>
       </div>
     </div>
