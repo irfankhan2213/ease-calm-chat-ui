@@ -162,7 +162,7 @@ const Auth = () => {
         </div>
 
         {/* Auth Forms */}
-        <Card className="shadow-2xl border-0 bg-white/80 backdrop-blur-sm">
+        <Card className="shadow-2xl border-0 bg-white backdrop-blur-sm">
           <CardHeader className="pb-6">
             <CardTitle className="text-center text-xl font-semibold text-gray-900">Get Started</CardTitle>
             <CardDescription className="text-center text-gray-600">
@@ -171,15 +171,27 @@ const Auth = () => {
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="signin" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-6">
-                <TabsTrigger value="signin" className="text-sm font-medium">Sign In</TabsTrigger>
-                <TabsTrigger value="signup" className="text-sm font-medium">Sign Up</TabsTrigger>
+              <TabsList className="grid w-full grid-cols-2 mb-6 bg-gray-100">
+                <TabsTrigger 
+                  value="signin" 
+                  className="text-sm font-medium text-gray-700 data-[state=active]:bg-white data-[state=active]:text-gray-900 data-[state=active]:shadow-sm"
+                >
+                  Sign In
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="signup" 
+                  className="text-sm font-medium text-gray-700 data-[state=active]:bg-white data-[state=active]:text-gray-900 data-[state=active]:shadow-sm"
+                >
+                  Sign Up
+                </TabsTrigger>
               </TabsList>
               
-              <TabsContent value="signin">
+              <TabsContent value="signin" className="mt-0">
                 <form onSubmit={handleSignIn} className="space-y-5">
                   <div className="space-y-2">
-                    <Label htmlFor="signin-email" className="text-sm font-medium text-gray-900">Email</Label>
+                    <Label htmlFor="signin-email" className="text-sm font-medium text-gray-900">
+                      Email
+                    </Label>
                     <Input
                       id="signin-email"
                       name="email"
@@ -192,7 +204,9 @@ const Auth = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="signin-password" className="text-sm font-medium text-gray-900">Password</Label>
+                    <Label htmlFor="signin-password" className="text-sm font-medium text-gray-900">
+                      Password
+                    </Label>
                     <div className="relative">
                       <Input
                         id="signin-password"
@@ -207,7 +221,7 @@ const Auth = () => {
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
                       >
                         {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                       </button>
@@ -224,10 +238,12 @@ const Auth = () => {
                 </form>
               </TabsContent>
               
-              <TabsContent value="signup">
+              <TabsContent value="signup" className="mt-0">
                 <form onSubmit={handleSignUp} className="space-y-5">
                   <div className="space-y-2">
-                    <Label htmlFor="signup-email" className="text-sm font-medium text-gray-900">Email</Label>
+                    <Label htmlFor="signup-email" className="text-sm font-medium text-gray-900">
+                      Email
+                    </Label>
                     <Input
                       id="signup-email"
                       name="email"
@@ -240,7 +256,9 @@ const Auth = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="signup-password" className="text-sm font-medium text-gray-900">Password</Label>
+                    <Label htmlFor="signup-password" className="text-sm font-medium text-gray-900">
+                      Password
+                    </Label>
                     <div className="relative">
                       <Input
                         id="signup-password"
@@ -256,7 +274,7 @@ const Auth = () => {
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
                       >
                         {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                       </button>
