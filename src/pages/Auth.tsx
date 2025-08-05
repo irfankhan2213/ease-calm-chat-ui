@@ -24,7 +24,6 @@ const Auth = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         setSession(session);
@@ -36,7 +35,6 @@ const Auth = () => {
       }
     );
 
-    // Check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
@@ -143,45 +141,45 @@ const Auth = () => {
         <div className="text-center mb-8">
           <Link 
             to="/" 
-            className="inline-flex items-center gap-2 text-purple-600 hover:text-purple-700 mb-6 transition-colors"
+            className="inline-flex items-center gap-2 text-purple-700 hover:text-purple-800 mb-6 transition-colors font-medium"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Back to Home</span>
+            <span>Back</span>
           </Link>
           
-          <div className="flex items-center justify-center mb-4">
-            <div className="p-3 rounded-full bg-gradient-to-br from-purple-100 to-teal-100">
-              <Heart className="w-6 h-6 text-purple-600" />
+          <div className="flex items-center justify-center mb-6">
+            <div className="p-4 rounded-2xl bg-gradient-to-br from-purple-100 to-teal-100 shadow-lg">
+              <Heart className="w-8 h-8 text-purple-600" />
             </div>
           </div>
           
-          <h1 className="text-2xl font-bold text-gray-800 mb-2">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
             Welcome to Ease
           </h1>
-          <p className="text-gray-600">
+          <p className="text-lg text-gray-700">
             Your safe space for emotional wellness
           </p>
         </div>
 
         {/* Auth Forms */}
-        <Card className="shadow-xl border-0">
-          <CardHeader>
-            <CardTitle className="text-center text-gray-800">Get Started</CardTitle>
-            <CardDescription className="text-center">
+        <Card className="shadow-2xl border-0 bg-white/80 backdrop-blur-sm">
+          <CardHeader className="pb-6">
+            <CardTitle className="text-center text-xl font-semibold text-gray-900">Get Started</CardTitle>
+            <CardDescription className="text-center text-gray-600">
               Sign in to your account or create a new one
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="signin" className="w-full">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="signin">Sign In</TabsTrigger>
-                <TabsTrigger value="signup">Sign Up</TabsTrigger>
+              <TabsList className="grid w-full grid-cols-2 mb-6">
+                <TabsTrigger value="signin" className="text-sm font-medium">Sign In</TabsTrigger>
+                <TabsTrigger value="signup" className="text-sm font-medium">Sign Up</TabsTrigger>
               </TabsList>
               
               <TabsContent value="signin">
-                <form onSubmit={handleSignIn} className="space-y-4">
+                <form onSubmit={handleSignIn} className="space-y-5">
                   <div className="space-y-2">
-                    <Label htmlFor="signin-email">Email</Label>
+                    <Label htmlFor="signin-email" className="text-sm font-medium text-gray-900">Email</Label>
                     <Input
                       id="signin-email"
                       name="email"
@@ -190,11 +188,11 @@ const Auth = () => {
                       onChange={handleInputChange}
                       placeholder="your@email.com"
                       required
-                      className="bg-gray-50 border-gray-200 focus:border-purple-300 focus:ring-purple-300"
+                      className="h-11 text-base text-gray-900 placeholder:text-gray-500 bg-white border-2 border-gray-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-100 rounded-xl"
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="signin-password">Password</Label>
+                    <Label htmlFor="signin-password" className="text-sm font-medium text-gray-900">Password</Label>
                     <div className="relative">
                       <Input
                         id="signin-password"
@@ -204,32 +202,32 @@ const Auth = () => {
                         onChange={handleInputChange}
                         placeholder="••••••••"
                         required
-                        className="bg-gray-50 border-gray-200 focus:border-purple-300 focus:ring-purple-300 pr-10"
+                        className="h-11 text-base text-gray-900 placeholder:text-gray-500 bg-white border-2 border-gray-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-100 rounded-xl pr-12"
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
                       >
-                        {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                       </button>
                     </div>
                   </div>
                   <Button 
                     type="submit" 
-                    className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white"
+                    className="w-full h-12 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white text-base font-medium rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
                     disabled={loading}
                   >
-                    {loading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+                    {loading && <Loader2 className="w-5 h-5 mr-2 animate-spin" />}
                     Sign In
                   </Button>
                 </form>
               </TabsContent>
               
               <TabsContent value="signup">
-                <form onSubmit={handleSignUp} className="space-y-4">
+                <form onSubmit={handleSignUp} className="space-y-5">
                   <div className="space-y-2">
-                    <Label htmlFor="signup-email">Email</Label>
+                    <Label htmlFor="signup-email" className="text-sm font-medium text-gray-900">Email</Label>
                     <Input
                       id="signup-email"
                       name="email"
@@ -238,11 +236,11 @@ const Auth = () => {
                       onChange={handleInputChange}
                       placeholder="your@email.com"
                       required
-                      className="bg-gray-50 border-gray-200 focus:border-purple-300 focus:ring-purple-300"
+                      className="h-11 text-base text-gray-900 placeholder:text-gray-500 bg-white border-2 border-gray-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-100 rounded-xl"
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="signup-password">Password</Label>
+                    <Label htmlFor="signup-password" className="text-sm font-medium text-gray-900">Password</Label>
                     <div className="relative">
                       <Input
                         id="signup-password"
@@ -253,26 +251,26 @@ const Auth = () => {
                         placeholder="Create a strong password"
                         required
                         minLength={6}
-                        className="bg-gray-50 border-gray-200 focus:border-purple-300 focus:ring-purple-300 pr-10"
+                        className="h-11 text-base text-gray-900 placeholder:text-gray-500 bg-white border-2 border-gray-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-100 rounded-xl pr-12"
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
                       >
-                        {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                       </button>
                     </div>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-gray-600">
                       Minimum 6 characters required
                     </p>
                   </div>
                   <Button 
                     type="submit" 
-                    className="w-full bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 text-white"
+                    className="w-full h-12 bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 text-white text-base font-medium rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
                     disabled={loading}
                   >
-                    {loading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+                    {loading && <Loader2 className="w-5 h-5 mr-2 animate-spin" />}
                     Create Account
                   </Button>
                 </form>
@@ -281,7 +279,7 @@ const Auth = () => {
           </CardContent>
         </Card>
 
-        <p className="text-center text-sm text-gray-500 mt-6">
+        <p className="text-center text-sm text-gray-600 mt-6">
           By continuing, you agree to our Terms of Service and Privacy Policy
         </p>
       </div>
