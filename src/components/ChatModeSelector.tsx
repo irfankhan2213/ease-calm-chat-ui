@@ -166,7 +166,7 @@ const ChatModeSelector: React.FC<ChatModeSelectorProps> = ({ mode, setMode, user
                 </div>
                 <h3 className="text-xl font-semibold text-gray-800 mb-2">Text Chat</h3>
                 <p className="text-gray-600 text-sm leading-relaxed">
-                  Express yourself through thoughtful written conversation
+                  Have thoughtful conversations through text messages
                 </p>
                 <div className="flex items-center justify-center mt-3 text-purple-600 text-sm font-medium">
                   <Sparkles className="w-4 h-4 mr-1" />
@@ -188,7 +188,7 @@ const ChatModeSelector: React.FC<ChatModeSelectorProps> = ({ mode, setMode, user
                 </div>
                 <h3 className="text-xl font-semibold text-gray-800 mb-2">Voice Chat</h3>
                 <p className="text-gray-600 text-sm leading-relaxed">
-                  Share your thoughts naturally through voice conversation
+                  Express yourself naturally through voice conversation
                 </p>
                 <div className="flex items-center justify-center mt-3 text-teal-600 text-sm font-medium">
                   <Zap className="w-4 h-4 mr-1" />
