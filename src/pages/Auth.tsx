@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -9,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Heart, ArrowLeft, Loader2, Eye, EyeOff } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/components/ui/use-toast';
+import TermsOfService from '@/components/TermsOfService';
 import type { User, Session } from '@supabase/supabase-js';
 
 const Auth = () => {
@@ -316,9 +316,8 @@ const Auth = () => {
           </CardContent>
         </Card>
 
-        <p className="text-center text-sm text-gray-600 mt-6">
-          By continuing, you agree to our Terms of Service and Privacy Policy
-        </p>
+        {/* Terms of Service */}
+        <TermsOfService />
       </div>
     </div>
   );
