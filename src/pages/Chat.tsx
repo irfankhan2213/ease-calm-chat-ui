@@ -1,18 +1,19 @@
 
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/components/ui/use-toast';
 import type { User, Session } from '@supabase/supabase-js';
-import TextChat from '@/components/TextChat';
-import VoiceChat from '@/components/VoiceChat';
+import TextChatPage from '@/components/TextChatPage';
+import VoiceChatPage from '@/components/VoiceChatPage';
 import ChatModeSelector from '@/components/ChatModeSelector';
 
 const Chat = () => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
-  const [mode, setMode] = useState<'text' | 'voice'>('text');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const mode = searchParams.get('mode') as 'text' | 'voice' | null;
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -41,6 +42,10 @@ const Chat = () => {
 
     return () => subscription.unsubscribe();
   }, [navigate]);
+
+  const setMode = (newMode: 'text' | 'voice') => {
+    setSearchParams({ mode: newMode });
+  };
 
   const handleSignOut = async () => {
     try {
@@ -74,19 +79,26 @@ const Chat = () => {
     return null;
   }
 
+  // Show mode selector if no mode is selected
+  if (!mode) {
+    return (
+      <div className="h-screen bg-gradient-to-br from-purple-50 via-white to-teal-50">
+        <ChatModeSelector 
+          mode={null} 
+          setMode={setMode} 
+          user={user} 
+          onSignOut={handleSignOut} 
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="h-screen bg-gradient-to-br from-purple-50 via-white to-teal-50">
-      <ChatModeSelector 
-        mode={mode} 
-        setMode={setMode} 
-        user={user} 
-        onSignOut={handleSignOut} 
-      />
-      
       {mode === 'text' ? (
-        <TextChat user={user} />
+        <TextChatPage user={user} onSignOut={handleSignOut} setMode={setMode} />
       ) : (
-        <VoiceChat user={user} />
+        <VoiceChatPage user={user} onSignOut={handleSignOut} setMode={setMode} />
       )}
     </div>
   );
