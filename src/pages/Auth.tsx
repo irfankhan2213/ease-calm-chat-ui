@@ -17,6 +17,7 @@ const Auth = () => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
+    name: '',
     email: '',
     password: ''
   });
@@ -58,7 +59,10 @@ const Auth = () => {
         email: formData.email,
         password: formData.password,
         options: {
-          emailRedirectTo: redirectUrl
+          emailRedirectTo: redirectUrl,
+          data: {
+            full_name: formData.name
+          }
         }
       });
 
@@ -240,6 +244,21 @@ const Auth = () => {
               
               <TabsContent value="signup" className="mt-0">
                 <form onSubmit={handleSignUp} className="space-y-5">
+                  <div className="space-y-2">
+                    <Label htmlFor="signup-name" className="text-sm font-medium text-gray-900">
+                      Full Name
+                    </Label>
+                    <Input
+                      id="signup-name"
+                      name="name"
+                      type="text"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      placeholder="Your name"
+                      required
+                      className="h-11 text-base text-gray-900 placeholder:text-gray-500 bg-white border-2 border-gray-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-100 rounded-xl"
+                    />
+                  </div>
                   <div className="space-y-2">
                     <Label htmlFor="signup-email" className="text-sm font-medium text-gray-900">
                       Email

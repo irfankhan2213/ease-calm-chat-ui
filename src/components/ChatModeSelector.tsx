@@ -138,38 +138,34 @@ const ChatModeSelector: React.FC<ChatModeSelectorProps> = ({ mode, setMode, user
       </header>
 
       {/* Central Mode Selection */}
-      <div className="flex-1 flex items-center justify-center p-6">
-        <div className="text-center max-w-2xl mx-auto">
-          {/* Welcome Section */}
-          <div className="mb-12">
-            <div className="text-6xl mb-6 animate-fade-in">🌱</div>
-            <h2 className="text-3xl sm:text-4xl font-light text-gray-800 mb-4 animate-fade-in">
+      <div className="flex-1 flex items-center justify-center p-4 sm:p-6">
+        <div className="text-center max-w-2xl mx-auto w-full">
+          {/* Welcome Section - no plant emoji */}
+          <div className="mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-light text-gray-800 mb-4 animate-fade-in">
               Welcome back, {user.email?.split('@')[0] || 'there'}
             </h2>
-            <p className="text-lg text-gray-600 animate-fade-in">
+            <p className="text-base sm:text-lg text-gray-600 animate-fade-in">
               Choose how you'd like to connect today
             </p>
           </div>
 
-          {/* Mode Selection Cards */}
-          <div className="grid sm:grid-cols-2 gap-6 sm:gap-8 mb-8">
+          {/* Mode Selection Cards - side by side on all screen sizes */}
+          <div className="flex gap-3 sm:gap-6 md:gap-8 mb-6 sm:mb-8 w-full">
             {/* Text Chat Mode */}
             <Button
               onClick={() => setMode('text')}
-              className="group relative h-auto p-0 bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-purple-300 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 overflow-hidden"
+              className="group relative flex-1 h-auto p-0 bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-purple-300 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 overflow-hidden"
               variant="ghost"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-purple-50 to-purple-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="relative p-8 text-center">
-                <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <MessageSquare className="w-8 h-8 text-white" />
+              <div className="relative p-4 sm:p-6 md:p-8 text-center w-full">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <MessageSquare className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">Text Chat</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  Have thoughtful conversations through text messages
-                </p>
-                <div className="flex items-center justify-center mt-3 text-purple-600 text-sm font-medium">
-                  <Sparkles className="w-4 h-4 mr-1" />
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-2 sm:mb-3">Text Chat</h3>
+                <div className="flex items-center justify-center text-purple-600 text-xs sm:text-sm font-medium">
+                  <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
                   Start typing
                 </div>
               </div>
@@ -178,20 +174,17 @@ const ChatModeSelector: React.FC<ChatModeSelectorProps> = ({ mode, setMode, user
             {/* Voice Chat Mode */}
             <Button
               onClick={() => setMode('voice')}
-              className="group relative h-auto p-0 bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-teal-300 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 overflow-hidden"
+              className="group relative flex-1 h-auto p-0 bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-teal-300 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 overflow-hidden"
               variant="ghost"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-teal-50 to-teal-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="relative p-8 text-center">
-                <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-teal-500 to-teal-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <Mic className="w-8 h-8 text-white" />
+              <div className="relative p-4 sm:p-6 md:p-8 text-center w-full">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 bg-gradient-to-br from-teal-500 to-teal-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <Mic className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">Voice Chat</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  Express yourself naturally through voice conversation
-                </p>
-                <div className="flex items-center justify-center mt-3 text-teal-600 text-sm font-medium">
-                  <Zap className="w-4 h-4 mr-1" />
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-2 sm:mb-3">Voice Chat</h3>
+                <div className="flex items-center justify-center text-teal-600 text-xs sm:text-sm font-medium">
+                  <Zap className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
                   Start speaking
                 </div>
               </div>
@@ -199,8 +192,8 @@ const ChatModeSelector: React.FC<ChatModeSelectorProps> = ({ mode, setMode, user
           </div>
 
           {/* Session Info */}
-          <div className="bg-white/70 backdrop-blur-sm rounded-xl p-4 border border-gray-200">
-            <p className="text-sm text-gray-600">
+          <div className="bg-white/70 backdrop-blur-sm rounded-xl p-3 sm:p-4 border border-gray-200">
+            <p className="text-xs sm:text-sm text-gray-600">
               Session 12 • Ready when you are
             </p>
           </div>
